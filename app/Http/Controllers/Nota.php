@@ -13,20 +13,22 @@ class Nota extends Controller
 
         return response()->json(['notas' => $notas], 200);
     }
-    
+
     public function Store(Request $request)
     {
         $data = $request->all();
-        
+
         $data['isactive'] = true;
-        
+
         Notas::create($data);
-        
+
         return response()->json(['message' => 'Nota criada com sucesso'], 201);
     }
     public function Find()
     {
-        $notas = Notas::where('isactive', true)->get();
+        $notas = Notas::where('isactive', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json(['notas' => $notas], 200);
     }
