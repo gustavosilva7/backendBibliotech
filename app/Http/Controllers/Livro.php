@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livros;
+
 class Livro extends Controller
 {
-    public function Index(){
-        $livros = Livros::all();
+    public function Index()
+    {
+        $livros = Livros::orderBy('nomeLivro', 'asc')->get();
 
         return response()->json([
             'livros' => $livros
@@ -25,8 +27,9 @@ class Livro extends Controller
     }
     public function GetClassificacao()
     {
-        $livros = Livros::where('classificacaoLivro', true)->get();
-
+        $livros = Livros::where('classificacaoLivro', true)
+            ->orderBy('nomeLivro', 'asc')
+            ->get();
         return response()->json(['livros' => $livros], 200);
     }
     public function LivroOff($id)

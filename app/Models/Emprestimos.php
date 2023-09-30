@@ -20,6 +20,7 @@ class Emprestimos extends Model
         'turmaDoAluno',
         'idDoAluno',
         'dataDeEntrega',
-        'inProgress'
+        'inProgress',
+        'created_at'
     ];
 }
