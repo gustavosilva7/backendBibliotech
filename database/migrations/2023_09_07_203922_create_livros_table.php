@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("edicao");
             $table->string("autor");
             $table->integer("tombo");
+            $table->text("imagem_path");
             $table->integer("classificacaoLivro");
             $table->date("chegada");
             $table->date("lancamento");
