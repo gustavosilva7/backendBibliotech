@@ -20,10 +20,10 @@ class Livro extends Controller
         $data = $request->all();
         if ($request->hasFile('imagem')) {
             $imagemPath = $request->file('imagem')->store('storage/app/public');
+            $data['imagem_path'] = $imagemPath;
         }
 
         $data['classificacaoLivro'] = true;
-        $data['imagem_path'] = $imagemPath;
 
         Livros::create($data);
 
