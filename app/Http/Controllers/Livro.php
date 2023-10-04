@@ -18,7 +18,9 @@ class Livro extends Controller
     public function Store(Request $request)
     {
         $data = $request->all();
-        $imagemPath = $request->file('imagem')->store('storage/app/public');
+        if ($request->hasFile('imagem')) {
+            $imagemPath = $request->file('imagem')->store('storage/app/public');
+        }
 
         $data['classificacaoLivro'] = true;
         $data['imagem_path'] = $imagemPath;
