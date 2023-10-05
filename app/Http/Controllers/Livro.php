@@ -40,9 +40,9 @@ class Livro extends Controller
 
         Storage::disk('public')->putFileAs('images/livros', $request->file('image'), $fileName);
 
-        $livros = Storage::create($data);
+        Livros::create($data);
 
-        return response()->json($livros);
+         return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
 
 
