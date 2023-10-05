@@ -15,21 +15,37 @@ class Livro extends Controller
             'livros' => $livros
         ]);
     }
+
+
     public function Store(Request $request)
+    // {
+    //     $data = $request->all();
+    //     if ($request->hasFile('imagem')) {
+    //         $imagemPath = $request->file('imagem')->store('storage/app/public');
+    //         $data['imagem_path'] = $imagemPath;
+    //     }
+
+    //     $data['classificacaoLivro'] = true;
+
+    //     Livros::create($data);
+
+
+    //     return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
+    // }
     {
         $data = $request->all();
-        if ($request->hasFile('imagem')) {
-            $imagemPath = $request->file('imagem')->store('storage/app/public');
-            $data['imagem_path'] = $imagemPath;
-        }
 
-        $data['classificacaoLivro'] = true;
+        $fileName = time() . '.' . $request->file('imagem_path')->getClientOriginalExtension();
+        $data['imagem_path'] = $fileName;
 
-        Livros::create($data);
+        Storage::disk('public')->putFileAs('images/livros', $request->file('image'), $fileName);
 
+        $livros = Storage::create($data);
 
-        return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
+        return response()->json($livros);
     }
+
+
     public function GetClassificacao()
     {
         $livros = Livros::where('classificacaoLivro', true)
