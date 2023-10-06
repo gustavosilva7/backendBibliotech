@@ -30,6 +30,7 @@ class Livro extends Controller
         Livros::create($data);
         return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
+    
 
 
 
