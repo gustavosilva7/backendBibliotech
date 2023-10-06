@@ -18,32 +18,19 @@ class Livro extends Controller
 
 
     public function Store(Request $request)
-    // {
-    //     $data = $request->all();
-    //     if ($request->hasFile('imagem')) {
-    //         $imagemPath = $request->file('imagem')->store('storage/app/public');
-    //         $data['imagem_path'] = $imagemPath;
-    //     }
-
-    //     $data['classificacaoLivro'] = true;
-
-    //     Livros::create($data);
-
-
-    //     return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
-    // }
     {
         $data = $request->all();
+        if ($request->hasFile('imagem')) {
+            $imagemPath = $request->file('imagem')->store('public');
+            $data['imagem_path'] = $imagemPath;
+        }
 
-        $fileName = time() . '.' . $request->file('imagem_path')->getClientOriginalExtension();
-        $data['imagem_path'] = $fileName;
+        $data['classificacaoLivro'] = true;
 
-        Storage::disk('public')->putFileAs('images/livros', $request->file('image'), $fileName);
-
-        $livros = Storage::create($data);
-
-        return response()->json($livros);
+        Livros::create($data);
+        return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
+
 
 
     public function GetClassificacao()
