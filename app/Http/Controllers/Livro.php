@@ -21,18 +21,17 @@ class Livro extends Controller
     {
         $data = $request->all();
         if ($request->hasFile('imagem')) {
-            $imagemPath = $request->file('imagem')->store('storage/app/public');
+            $imagemPath = $request->file('imagem')->store('public');
             $data['imagem_path'] = $imagemPath;
         }
 
         $data['classificacaoLivro'] = true;
 
         Livros::create($data);
-
-
         return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
     
+
 
 
     public function GetClassificacao()
