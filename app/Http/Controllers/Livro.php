@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livros;
+use Illuminate\Support\Facades\Storage;
 
 class Livro extends Controller
 {
@@ -15,22 +16,29 @@ class Livro extends Controller
             'livros' => $livros
         ]);
     }
-
-
     public function Store(Request $request)
     {
         $data = $request->all();
+
+        // Verifique se foi enviado um arquivo de imagem
         if ($request->hasFile('imagem')) {
-            $imagemPath = $request->file('imagem')->store('public');
-            $data['imagem_path'] = $imagemPath;
+            $imagem = $request->file('imagem');
+
+            // Faça o upload da imagem para o Amazon S3 no diretório "imagens"
+            $path = $imagem->store('imagens', 's3');
+
+            // Adicione o caminho da imagem aos dados
+            $data['imagem_path'] = $path;
         }
 
         $data['classificacaoLivro'] = true;
 
+        // Crie um novo registro no banco de dados
         Livros::create($data);
+
         return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
-    
+
 
 
 
