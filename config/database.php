@@ -63,19 +63,21 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+       'pgsql' => [
     'driver' => 'pgsql',
-    'host' => env('DB_HOST', 'ep-cool-darkness-123456.us-east-2.aws.neon.tech'),
+    'url' => env('DATABASE_URL'),
+    'host' => env('DB_HOST', 'ep-green-poetry-58603259.us-west-2.aws.neon.tech'),
     'port' => env('DB_PORT', '5432'),
-    'database' => env('DB_DATABASE', 'dbname'),
-    'username' => env('DB_USERNAME', 'alex'),
-    'password' => env('DB_PASSWORD', 'AbC123dEf'),
+    'database' => env('DB_DATABASE', 'neondb'),
+    'username' => env('DB_USERNAME', 'gustavoalechandre002'),
+    'password' => env('DB_PASSWORD', 'luzgxp58KvYD'),
     'charset' => 'utf8', // ou utf8mb4, dependendo do seu caso
     'prefix' => '',
     'prefix_indexes' => true,
     'search_path' => 'public',
     'sslmode' => 'prefer',
 ],
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
