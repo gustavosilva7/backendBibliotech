@@ -20,11 +20,11 @@ class Livro extends Controller
     {
         $data = $request->all();
 
-        // // Verifique se foi enviado um arquivo de imagem
+            // // Verifique se foi enviado um arquivo de imagem
         // if ($request->hasFile('imagem')) {
         //     $imagem = $request->file('imagem');
 
-        //     // Faça o upload da imagem para o Amazon S3 no diretório "imagens"
+        //     // Faça o upload da imagem spara o Amazon S3 no diretório "imagens"
         //     $path = $imagem->store('imagens', 's3');
 
         //     // Adicione o caminho da imagem aos dados
