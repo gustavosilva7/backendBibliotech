@@ -19,7 +19,6 @@ class Livros extends Model
         'edicao',
         'tombo',
         'chegada',
-        'lancamento',
-        'imagem_path'
+        'lancamento'
     ];
 }
