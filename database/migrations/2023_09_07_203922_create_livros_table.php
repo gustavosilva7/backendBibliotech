@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,12 +13,11 @@ return new class extends Migration
         Schema::create('livros', function (Blueprint $table) {
             $table->id();
             $table->string("nomeLivro");
-            $table->string("volume");
+            $table->integer("quantidade");
             $table->string("editora");
             $table->string("edicao");
             $table->string("autor");
             $table->integer("tombo");
-            $table->text("imagem_path");
             $table->integer("classificacaoLivro");
             $table->date("chegada");
             $table->date("lancamento");

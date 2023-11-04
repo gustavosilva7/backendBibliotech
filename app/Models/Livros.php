@@ -13,7 +13,7 @@ class Livros extends Model
         'id',
         'classificacaoLivro',
         'nomeLivro',
-        'volume',
+        'quantidade',
         'autor',
         'editora',
         'edicao',
