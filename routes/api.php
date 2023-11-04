@@ -21,9 +21,9 @@ use App\Http\Controllers\UserImageProfileModelController; //imagem de perfil
 */
 
 //usuarios
-Route::get('/user', [Users::class, 'Index']);
-Route::get('/user/{id}', [Users::class, 'Find']);
-Route::post('/user', [Users::class, 'Store']);
+Route::get('/users', [Users::class, 'Index']);
+Route::get('/users/{id}', [Users::class, 'Find']);
+Route::post('/users', [Users::class, 'Store']);
 
 
 //notas
@@ -45,8 +45,11 @@ Route::put('/aluno/enablealuno/{id}', [Aluno::class, 'AlunoOn']);
 Route::get('/livros', [Livro::class, 'Index']);
 Route::post('/livros', [Livro::class, 'Store']);
 Route::get('/livro/classificacao', [Livro::class, 'GetClassificacao']);
+Route::put('/livro/quantlivrooff/{id}', [Livro::class, 'LivroQuantOff']);
+Route::put('/livro/quantlivroon/{id}', [Livro::class, 'LivroQuantOn']);
 Route::put('/livro/disablelivro/{id}', [Livro::class, 'LivroOff']);
 Route::put('/livro/enablelivro/{id}', [Livro::class, 'LivroOn']);
+Route::delete('/livro/delete/{id}', [Livro::class, 'destroy']);
 
 //Emprestimos
 Route::get('/emprestimos', [Emprestimo::class, 'Index']);

@@ -20,7 +20,7 @@ class Livro extends Controller
     {
         $data = $request->all();
 
-            // // Verifique se foi enviado um arquivo de imagem
+        // // Verifique se foi enviado um arquivo de imagem
         // if ($request->hasFile('imagem')) {
         //     $imagem = $request->file('imagem');
 
@@ -38,16 +38,57 @@ class Livro extends Controller
 
         return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
     }
-
-
-
-
     public function GetClassificacao()
     {
         $livros = Livros::where('classificacaoLivro', true)
             ->orderBy('nomeLivro', 'asc')
             ->get();
         return response()->json(['livros' => $livros], 200);
+    }
+    public function LivroQuantOff($id)
+    {
+        $livro = Livros::find($id);
+        if (!$livro) {
+            return response()->json(['message' => 'Livro não encontrado'], 404);
+        }
+        if ($livro->quantidade <= 0) {
+            return response()->json(['message' => 'Livro indisponivel'], 200);
+        } else {
+            $livro->quantidade = $livro->quantidade - 1;
+            if ($livro->quantidade == 0) {
+                $data = [
+                    'classificacaoLivro' => false,
+                ];
+                $livro->update($data);
+            }
+            $livro->save();
+            return response()->json([
+                'livro' => $livro,
+            ]);
+        }
+    }
+    public function LivroQuantOn($id)
+    {
+        $livro = Livros::find($id);
+        if (!$livro) {
+            return response()->json(['message' => 'Livro não encontrado'], 404);
+        }
+
+        if ($livro->quantidade === 0) {
+            $livro->quantidade = $livro->quantidade + 1;
+            if ($livro->quantidade > 0) {
+                $data = [
+                    'classificacaoLivro' => true,
+                ];
+                $livro->update($data);
+                $livro->save();
+                return response()->json(['message' => 'Livro novamente disponivel'], 200);
+            }
+        } else {
+            $livro->quantidade = $livro->quantidade + 1;
+            $livro->save();
+            return response()->json(['message' => 'Livro entregue com sucesso'], 200);
+        }
     }
     public function LivroOff($id)
     {
@@ -80,5 +121,15 @@ class Livro extends Controller
         $Livro->update($data);
 
         return response()->json(['message' => 'Livro atualizado com sucesso'], 200);
+    }
+    public function destroy($id)
+    {
+        $livro = Livros::find($id);
+        if ($livro) {
+            $livro->delete();
+            return response()->json(['message' => 'Livro deletado com sucesso']);
+        } else {
+            return response()->json(['message' => 'Livro não encontrado'], 404);
+        }
     }
 }
