@@ -13,12 +13,10 @@ class Livros extends Model
         'id',
         'classificacaoLivro',
         'nomeLivro',
-        'quantidade',
         'autor',
         'editora',
         'edicao',
         'tombo',
-        'chegada',
         'lancamento'
     ];
 }
