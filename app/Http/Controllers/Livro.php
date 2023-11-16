@@ -29,13 +29,27 @@ class Livro extends Controller
     public function Store(Request $request)
     {
         $data = $request->all();
+        $livrosCriados = [];
+
+        // Adiciona os valores comuns a todos os livros
         $data['classificacaoLivro'] = true;
-        $data['tombo'] = random_int(1, 9999);
+        
+        if ($data['quantidade'] > 1) {
+            for ($i = 0; $i < $data['quantidade']; $i++) {
+                $data['tombo'] = random_int(1, 99999);
+                $livro = Livros::create($data);
+                $livrosCriados[] = $livro;
+            }
 
-        Livros::create($data);
+            return response()->json(['message' => 'Livros cadastrados com sucesso', 'livros' => $livrosCriados], 201);
+        } else {
+            $data['tombo'] = random_int(1, 9999);
+            Livros::create($data);
 
-        return response()->json(['message' => 'Livro cadastrado com sucesso'], 201);
+            return response()->json(['message' => 'Livro cadastrado com sucesso', 'livro' => $data], 201);
+        }
     }
+
     public function GetClassificacao()
     {
         $livros = Livros::where('classificacaoLivro', true)
