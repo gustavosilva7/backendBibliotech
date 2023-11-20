@@ -10,7 +10,7 @@ class Livro extends Controller
 {
     public function Index()
     {
-        $livros = Livros::orderBy('nomeLivro', 'asc')->get();
+        $livros = Livros::orderBy('id', 'asc')->get();
 
         return response()->json([
             'livros' => $livros
@@ -24,7 +24,6 @@ class Livro extends Controller
         $livro->update($data);
 
         return response()->json([$livro]);
-
     }
     public function Store(Request $request)
     {
@@ -33,7 +32,7 @@ class Livro extends Controller
 
         // Adiciona os valores comuns a todos os livros
         $data['classificacaoLivro'] = true;
-        
+
         if ($data['quantidade'] > 1) {
             for ($i = 0; $i < $data['quantidade']; $i++) {
                 $data['tombo'] = random_int(1, 99999);
@@ -53,7 +52,7 @@ class Livro extends Controller
     public function GetClassificacao()
     {
         $livros = Livros::where('classificacaoLivro', true)
-            ->orderBy('nomeLivro', 'asc')
+            ->orderBy('id', 'asc')
             ->get();
         return response()->json(['livros' => $livros], 200);
     }
@@ -63,21 +62,14 @@ class Livro extends Controller
         if (!$livro) {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
-        if ($livro->quantidade <= 0) {
-            return response()->json(['message' => 'Livro indisponivel'], 200);
-        } else {
-            $livro->quantidade = $livro->quantidade - 1;
-            if ($livro->quantidade == 0) {
-                $data = [
-                    'classificacaoLivro' => false,
-                ];
-                $livro->update($data);
-            }
-            $livro->save();
-            return response()->json([
-                'livro' => $livro,
-            ]);
-        }
+        $data = [
+            'classificacaoLivro' => false,
+        ];
+        $livro->update($data);
+
+        return response()->json([
+            'livro' => $livro,
+        ]);
     }
     public function LivroQuantOn($id)
     {
@@ -85,22 +77,11 @@ class Livro extends Controller
         if (!$livro) {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
-
-        if ($livro->quantidade === 0) {
-            $livro->quantidade = $livro->quantidade + 1;
-            if ($livro->quantidade > 0) {
-                $data = [
-                    'classificacaoLivro' => true,
-                ];
-                $livro->update($data);
-                $livro->save();
-                return response()->json(['message' => 'Livro novamente disponivel'], 200);
-            }
-        } else {
-            $livro->quantidade = $livro->quantidade + 1;
-            $livro->save();
-            return response()->json(['message' => 'Livro entregue com sucesso'], 200);
-        }
+        $data = [
+            'classificacaoLivro' => true,
+        ];
+        $livro->update($data);
+        return response()->json(['message' => 'Livro novamente disponivel'], 200);
     }
     public function LivroOff($id)
     {
