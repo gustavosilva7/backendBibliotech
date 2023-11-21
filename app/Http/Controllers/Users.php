@@ -31,8 +31,15 @@ class Users extends Controller
     {
         $data = $request->all();
 
+        if($request->hasFile('imagem')){
+            $image = $request->file('imagem');
+            $imageName= time().'.'.$image->getClientOriginalExtension();
+            $path = public_path('/uploads/imageUsers/');
+            $image->move($path, $imageName);
+        }
+
         User::create($data);
 
-        return response()->json(['message' => 'Usuário criado com sucesso'], 201);
+        return response()->json(['message' => $data], 201);
     }
 }
