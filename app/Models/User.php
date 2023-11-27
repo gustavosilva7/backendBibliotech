@@ -14,6 +14,7 @@ class User extends Model
         "nome",
         "email",
         "senha",
-        "token"
-        ];
+        "token",
+        "image"
+    ];
 }

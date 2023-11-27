@@ -24,6 +24,7 @@ use App\Http\Controllers\UserImageProfileModelController; //imagem de perfil
 Route::get('/users', [Users::class, 'Index']);
 Route::get('/users/{id}', [Users::class, 'Find']);
 Route::post('/users', [Users::class, 'Store']);
+Route::get('/image/{filename}', [Users::class, 'getImage']);
 
 
 //notas
