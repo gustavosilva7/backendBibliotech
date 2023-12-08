@@ -62,21 +62,21 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
-      'pgsql' => [
-    'driver' => 'pgsql',
-    'url' => env('DATABASE_URL'),
-    'host' => env('DB_HOST', 'ep-green-poetry-58603259.us-west-2.aws.neon.tech'),
-    'port' => env('DB_PORT', '5432'),
-    'database' => env('DB_DATABASE', 'Bibliotech'),
-    'username' => env('DB_USERNAME', 'gustavoalechandre002'),
-    'password' => env('DB_PASSWORD', 'luzgxp58KvYD'),
-    'charset' => 'utf8', // ou utf8mb4, dependendo do seu caso
-    'prefix' => '',
-    'prefix_indexes' => true,
-    'search_path' => 'public',
-    'sslmode' => 'prefer',
-],
+    
+        'pgsql' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
