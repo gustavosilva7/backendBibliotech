@@ -59,21 +59,16 @@ class Users extends Controller
 
     public function getImage($filename)
     {
-        $path = ('http://192.168.0.12:9195/storage/uploads/users/' . $filename);
-
-        return response()->json(["image" => $path]);
-
-
+        $path = storage_path('app/public/uploads/users/' . $filename);
 
         if (File::exists($path)) {
-            abort(404);
-            // return response()->json(["image" => $path]);
+            $file = File::get($path);
+            $type = File::mimeType($path);
+
+            return response($file, 200)->header('Content-Type', $type);
         }
 
-        // $file = File::get($path);
-        // $type = File::mimeType($path);
-
-        // return response($file, 200)->header('Content-Type', $type);
+        return response()->json(["message" => "Imagem não encontrada"], 404);
     }
 
 
