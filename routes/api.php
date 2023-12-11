@@ -1,14 +1,12 @@
 <?php
 
 use App\Http\Controllers\Livro;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Users; // Usuários
 use App\Http\Controllers\Nota; // Notas
 use App\Http\Controllers\Aluno; // Aluno
 use App\Http\Controllers\Emprestimo; //Emprestimo
-use App\Http\Controllers\UserImageProfileModelController; //imagem de perfil
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,13 +17,11 @@ use App\Http\Controllers\UserImageProfileModelController; //imagem de perfil
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 //usuarios
 Route::get('/users', [Users::class, 'Index']);
 Route::get('/users/{id}', [Users::class, 'Find']);
 Route::post('/users', [Users::class, 'Store']);
 Route::get('/image/{filename}', [Users::class, 'getImage']);
-
 
 //notas
 Route::get('/notas', [Nota::class, 'Index']);
@@ -58,8 +54,3 @@ Route::get('/emprestimos', [Emprestimo::class, 'Index']);
 Route::post('/emprestimos', [Emprestimo::class, 'Store']);
 Route::get('/emprestimos/ativos', [Emprestimo::class, 'Emprestimos']);
 Route::put('/emprestimos/{id}', [Emprestimo::class, 'Delete']);
-
-
-//fotos de perfil
-Route::get('/imagem', [UserImageProfileModelController::class, 'Index']);
-Route::post('/imagem', [UserImageProfileModelController::class, 'Store']);

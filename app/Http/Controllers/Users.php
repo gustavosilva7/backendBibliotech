@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class Users extends Controller
 {
@@ -38,19 +36,15 @@ class Users extends Controller
             $image = $request->file('imagem');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            // Salvar a imagem usando o Storage
             $path = $image->storeAs('uploads/users', $imageName);
 
-            // Adicionar apenas o nome do arquivo ao array de dados para salvar no banco de dados
             $data['image'] = $imageName;
 
-            // Agora você pode salvar os dados no banco de dados, incluindo apenas o nome da imagem
             User::create($data);
 
             return response()->json(['message' => 'Upload realizado com sucesso!', 'image_path' => $imageName], 201);
         }
 
-        // Se não houver arquivo de imagem, crie o usuário sem imagem
         User::create($data);
 
         return response()->json(['message' => 'Nenhuma imagem foi enviada.'], 400);
