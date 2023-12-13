@@ -35,10 +35,9 @@ class Emprestimo extends Controller
     }
     public function Pendentes()
     {
-        $dataAtual = date('YYYY-MM-DD');
 
         $emprestimos = Emprestimos::where('inProgress', true)
-            ->where('dataDeEntrega', '<', $dataAtual)
+            ->where('dataDeEntrega', '<', date('Y-m-d'))
             ->get();
 
         return response()->json(['emprestimos' => $emprestimos], 200);
