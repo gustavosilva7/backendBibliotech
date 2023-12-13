@@ -33,6 +33,16 @@ class Emprestimo extends Controller
 
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
+    public function Pendentes()
+    {
+        $dataAtual = date();
+
+        $emprestimos = Emprestimos::where('inProgress', true)
+            ->where('dataDeEntrega', '<', $dataAtual)
+            ->get();
+
+        return response()->json(['emprestimos' => $emprestimos], 200);
+    }
     public function Delete($id)
     {
         $Emprestimo = Emprestimos::find($id);
