@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alunos;
 use App\Models\Emprestimos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class Emprestimo extends Controller
 {
@@ -42,6 +45,19 @@ class Emprestimo extends Controller
 
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
+
+    public function Ranking()
+    {
+        $rankingStudents = Emprestimos::select('idDoAluno', DB::raw('COUNT(*) as total'))
+            ->groupBy('idDoAluno')
+            ->orderByDesc('total')
+            ->get();
+
+        return response()->json($rankingStudents);
+    }
+
+
+
     public function Delete($id)
     {
         $Emprestimo = Emprestimos::find($id);

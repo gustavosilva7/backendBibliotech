@@ -55,3 +55,4 @@ Route::post('/emprestimos', [Emprestimo::class, 'Store']);
 Route::get('/emprestimos/ativos', [Emprestimo::class, 'Emprestimos']);
 Route::get('/emprestimos/pendentes', [Emprestimo::class, 'Pendentes']);
 Route::put('/emprestimos/{id}', [Emprestimo::class, 'Delete']);
+Route::get('/emprestimos/ranking', [Emprestimo::class, 'Ranking']);
