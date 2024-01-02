@@ -49,7 +49,7 @@ class Emprestimo extends Controller
     public function Ranking()
     {
         $rankingStudents = Emprestimos::select('idDoAluno', 'created_at', 'idDoLivro', DB::raw('COUNT(*) as total'))
-            ->groupBy('idDoAluno')
+            // ->groupBy('idDoAluno')
             ->orderByDesc('total')
             ->get();
 
