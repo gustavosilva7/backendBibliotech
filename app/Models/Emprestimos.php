@@ -21,6 +21,6 @@ class Emprestimos extends Model
         'idDoAluno',
         'dataDeEntrega',
         'inProgress',
-        'created_at'
+        'created_at',
     ];
 }
