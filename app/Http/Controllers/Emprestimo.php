@@ -14,7 +14,7 @@ class Emprestimo extends Controller
     {
         $emprestimos = Emprestimos::all();
 
-        $ranking = $emprestimos::select("idDoAluno", DB::raw("COUNT(*) as total"))
+        $ranking = Emprestimos::select("idDoAluno", DB::raw("COUNT(*) as total"))
         ->orderByDesc("total")
         ->groupBy("idDoAluno")
         ->get();
