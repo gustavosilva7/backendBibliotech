@@ -14,7 +14,13 @@ class Emprestimo extends Controller
     {
         $emprestimos = Emprestimos::all();
 
+        $ranking = $emprestimos::select("idDoAluno", DB::raw("COUNT(*) as total"))
+        ->orderByDesc("total")
+        ->groupBy("idDoAluno")
+        ->get();
+
         return response()->json([
+            "ranking" => $ranking,
             "emprestimos" => $emprestimos
         ]);
     }
