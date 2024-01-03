@@ -126,7 +126,11 @@ class Livro extends Controller
         $livro = Livros::find($id);
         if ($livro) {
             $livro->delete();
-            return response()->json(['message' => 'Livro deletado com sucesso']);
+            $livros = Livros::all();    
+            return response()->json([
+                'message' => 'Livro deletado com sucesso',
+                'livros' => $livros
+        ]);
         } else {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
