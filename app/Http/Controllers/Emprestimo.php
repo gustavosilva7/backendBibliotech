@@ -53,39 +53,30 @@ class Emprestimo extends Controller
     }
 
     public function Ranking()
-    {
-        $rankingStudents = Emprestimos::select(
-            'nomeDoLivro',
-            'autorDoLivro',
-            'tomboDoLivro',
-            'idDoLivro',
-            'nomeDoAluno',
-            'serieDoAluno',
-            'turmaDoAluno',
-            'idDoAluno',
-            'dataDeEntrega',
-            'inProgress',
-            'created_at',
-            DB::raw('COUNT(*) as total')
-        )
-            ->groupBy(
-                'nomeDoLivro',
-                'autorDoLivro',
-                'tomboDoLivro',
-                'idDoLivro',
-                'nomeDoAluno',
-                'serieDoAluno',
-                'turmaDoAluno',
-                'idDoAluno',
-                'dataDeEntrega',
-                'inProgress',
-                'created_at'
-            )
-            ->orderByDesc('total')
-            ->get();
-    
-        return response()->json($rankingStudents);
-    }
+{
+    $rankingStudents = Emprestimos::select(
+        'id',
+        'nomeDoLivro',
+        'autorDoLivro',
+        'tomboDoLivro',
+        'idDoLivro',
+        'nomeDoAluno',
+        'serieDoAluno',
+        'turmaDoAluno',
+        'idDoAluno',
+        'dataDeEntrega',
+        'inProgress',
+        'created_at'
+    )
+        ->selectRaw('COUNT(*) as total')
+        ->groupBy('idDoAluno')
+        ->groupBy('id', 'nomeDoLivro', 'autorDoLivro', 'tomboDoLivro', 'idDoLivro', 'nomeDoAluno', 'serieDoAluno', 'turmaDoAluno', 'idDoAluno', 'dataDeEntrega', 'inProgress', 'created_at')
+        ->orderByDesc('total')
+        ->get();
+
+    return response()->json($rankingStudents);
+}
+
     
     public function Delete($id)
     {
