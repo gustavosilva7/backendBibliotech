@@ -65,20 +65,28 @@ class Emprestimo extends Controller
             'idDoAluno',
             'dataDeEntrega',
             'inProgress',
-            'created_at'
+            'created_at',
+            DB::raw('COUNT(*) as total')
         )
-            ->selectRaw('COUNT(*) as total')
-            ->groupBy('idDoAluno')
+            ->groupBy(
+                'nomeDoLivro',
+                'autorDoLivro',
+                'tomboDoLivro',
+                'idDoLivro',
+                'nomeDoAluno',
+                'serieDoAluno',
+                'turmaDoAluno',
+                'idDoAluno',
+                'dataDeEntrega',
+                'inProgress',
+                'created_at'
+            )
             ->orderByDesc('total')
             ->get();
     
         return response()->json($rankingStudents);
     }
     
-
-
-
-
     public function Delete($id)
     {
         $Emprestimo = Emprestimos::find($id);
