@@ -53,29 +53,28 @@ class Emprestimo extends Controller
     }
 
     public function Ranking()
-{
-    $rankingStudents = Emprestimos::select(
-        'id',
-        'nomeDoLivro',
-        'autorDoLivro',
-        'tomboDoLivro',
-        'idDoLivro',
-        'nomeDoAluno',
-        'serieDoAluno',
-        'turmaDoAluno',
-        'idDoAluno',
-        'dataDeEntrega',
-        'inProgress',
-        'created_at'
-    )
-        ->selectRaw('COUNT(*) as total')
-        ->groupBy('idDoAluno')
-        ->groupBy('id', 'nomeDoLivro', 'autorDoLivro', 'tomboDoLivro', 'idDoLivro', 'nomeDoAluno', 'serieDoAluno', 'turmaDoAluno', 'idDoAluno', 'dataDeEntrega', 'inProgress', 'created_at')
-        ->orderByDesc('total')
-        ->get();
-
-    return response()->json($rankingStudents);
-}
+    {
+        $rankingStudents = Emprestimos::select(
+            'idDoAluno',
+            DB::raw('COUNT(*) as total'),
+            DB::raw('MAX(nomeDoLivro) as nomeDoLivro'),
+            DB::raw('MAX(autorDoLivro) as autorDoLivro'),
+            DB::raw('MAX(tomboDoLivro) as tomboDoLivro'),
+            DB::raw('MAX(idDoLivro) as idDoLivro'),
+            DB::raw('MAX(nomeDoAluno) as nomeDoAluno'),
+            DB::raw('MAX(serieDoAluno) as serieDoAluno'),
+            DB::raw('MAX(turmaDoAluno) as turmaDoAluno'),
+            DB::raw('MAX(dataDeEntrega) as dataDeEntrega'),
+            DB::raw('MAX(inProgress) as inProgress'),
+            DB::raw('MAX(created_at) as created_at')
+        )
+            ->groupBy('idDoAluno')
+            ->orderByDesc('total')
+            ->get();
+    
+        return response()->json($rankingStudents);
+    }
+    
 
     
     public function Delete($id)
