@@ -55,7 +55,6 @@ class Emprestimo extends Controller
     public function Ranking()
     {
         $rankingStudents = Emprestimos::select(
-            'id',
             'nomeDoLivro',
             'autorDoLivro',
             'tomboDoLivro',
