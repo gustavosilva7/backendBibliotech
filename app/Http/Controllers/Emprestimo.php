@@ -57,15 +57,6 @@ class Emprestimo extends Controller
         $rankingStudents = Emprestimos::select(
             'idDoAluno',
             DB::raw('COUNT(*) as total'),
-            DB::raw('MAX(nomeDoLivro) as nomeDoLivro'),
-            DB::raw('MAX(autorDoLivro) as autorDoLivro'),
-            DB::raw('MAX(tomboDoLivro) as tomboDoLivro'),
-            DB::raw('MAX(idDoLivro) as idDoLivro'),
-            DB::raw('MAX(nomeDoAluno) as nomeDoAluno'),
-            DB::raw('MAX(serieDoAluno) as serieDoAluno'),
-            DB::raw('MAX(turmaDoAluno) as turmaDoAluno'),
-            DB::raw('MAX(dataDeEntrega) as dataDeEntrega'),
-            DB::raw('MAX(inProgress) as inProgress'),
             DB::raw('MAX(created_at) as created_at')
         )
             ->groupBy('idDoAluno')
