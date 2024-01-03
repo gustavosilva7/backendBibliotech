@@ -41,6 +41,7 @@ Route::put('/aluno/enablealuno/{id}', [Aluno::class, 'AlunoOn']);
 //livros
 Route::get('/livros', [Livro::class, 'Index']);
 Route::post('/livros', [Livro::class, 'Store']);
+Route::post('/livros/{id}', [Livro::class, 'Store']);
 Route::put('/livros/update/{id}', [Livro::class, 'Update']);
 Route::get('/livro/classificacao', [Livro::class, 'GetClassificacao']);
 Route::put('/livro/quantlivrooff/{id}', [Livro::class, 'LivroQuantOff']);
