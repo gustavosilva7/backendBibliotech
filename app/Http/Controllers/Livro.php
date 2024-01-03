@@ -25,6 +25,12 @@ class Livro extends Controller
 
         return response()->json([$livro]);
     }
+
+    public function Find($id){
+        $livro = Livros::find($id);
+
+        return response()->json([$livro]);
+    }
     public function Store(Request $request)
     {
         $data = $request->all();
