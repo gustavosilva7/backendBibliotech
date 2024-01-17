@@ -7,24 +7,23 @@ use App\Models\Notas;
 
 class Nota extends Controller
 {
-    public function Index()
+    public function index()
     {
         $notas = Notas::all();
 
         return response()->json(['notas' => $notas], 200);
     }
 
-    public function Store(Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
-
-        $data['isactive'] = true;
 
         Notas::create($data);
 
         return response()->json(['message' => 'Nota criada com sucesso'], 201);
     }
-    public function Find()
+
+    public function findActives()
     {
         $notas = Notas::where('isactive', true)
             ->orderBy('created_at', 'desc')
@@ -34,7 +33,7 @@ class Nota extends Controller
     }
 
 
-    public function Update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $produto = Notas::find($id);
 
@@ -49,12 +48,12 @@ class Nota extends Controller
         return response()->json(['message' => 'Produto atualizado com sucesso'], 200);
     }
 
-    public function Delete($id)
+    public function softDelete($id)
     {
         $nota = Notas::find($id);
 
         if (!$nota) {
-            return response()->json(['message' => 'nota não encontrado'], 404);
+            return response()->json(['message' => 'Nota não encontrado'], 404);
         }
 
         $data = [
