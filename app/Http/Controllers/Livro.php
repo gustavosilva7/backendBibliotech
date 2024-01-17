@@ -7,6 +7,15 @@ use App\Models\Livros;
 
 class Livro extends Controller
 {
+    /**
+     * @group Livros
+     *
+     * GET api/livros/{id?}
+     *
+     * Busca pelos livros
+     *
+     * @urlParam id number ID no livro
+     */
     public function index(int $id = null)
     {
         $query = Livros::query();
@@ -22,6 +31,13 @@ class Livro extends Controller
         ]);
     }
 
+    /**
+     * @group Livros
+     *
+     * GET api/livros/classificacao
+     *
+     * Busca por todos os livros disponíveis
+     */
     public function onlyAvailableBooks()
     {
         return response()->json([
@@ -29,7 +45,16 @@ class Livro extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    /**
+     * @group Livros
+     *
+     * PUT api/livros/{id}
+     *
+     * Atualiza o cadastro de um livro
+     *
+     * @urlParam id number required ID do livro
+     */
+    public function update(int $id, Request $request)
     {
         $livro = Livros::find($id);
         $data = $request->all();
@@ -39,6 +64,13 @@ class Livro extends Controller
         return response()->json([$livro]);
     }
 
+    /**
+     * @group Livros
+     *
+     * POST api/livros
+     *
+     * Cadastra novos livros
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -53,7 +85,16 @@ class Livro extends Controller
         return response()->json(['message' => 'Livros cadastrados com sucesso', 'livros' => $livrosCriados], 201);
     }
 
-    public function makeBookAvailable($id)
+    /**
+     * @group Livros
+     *
+     * PUT api/livros/enablelivro/{id}
+     *
+     * Torna um livro disponível
+     *
+     * @urlParam id number required ID do livro
+     */
+    public function makeBookAvailable(int $id)
     {
         $book = Livros::find($id);
 
@@ -68,7 +109,16 @@ class Livro extends Controller
         return response()->json(['livro' => $book], 200);
     }
 
-    public function makeBookUnavailable($id)
+    /**
+     * @group Livros
+     *
+     * PUT api/livros/disablelivro/{id}
+     *
+     * Torna um livro indisponível
+     *
+     * @urlParam id number required ID do livro
+     */
+    public function makeBookUnavailable(int $id)
     {
         $book = Livros::find($id);
 
@@ -79,7 +129,16 @@ class Livro extends Controller
         return response()->json(['livro' => $book], 200);
     }
 
-    public function destroy($id)
+    /**
+     * @group Livros
+     *
+     * DELETE api/livros/delete/{id}
+     *
+     * Deleta um livro
+     *
+     * @urlParam id number required ID do livro
+     */
+    public function destroy(int $id)
     {
         $livro = Livros::find($id);
 

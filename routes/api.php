@@ -36,8 +36,8 @@ Route::prefix('/notas')->group(function () {
 Route::prefix('/alunos')->group(function () {
     Route::get('/{onlyAvailable?}', [Aluno::class, 'index'])->name('alunos.get');
     Route::post('/', [Aluno::class, 'store'])->name('alunos.post');
-    Route::put('/enablealuno/{id}', [Aluno::class, 'alunoOn'])->name('alunos.habilitar_aluno');
-    Route::put('/disablealuno/{id}', [Aluno::class, 'alunoOff'])->name('alunos.desabilitar_aluno');
+    Route::put('/enablealuno/{id}', [Aluno::class, 'enableStudent'])->name('alunos.habilitar_aluno');
+    Route::put('/disablealuno/{id}', [Aluno::class, 'disableStudent'])->name('alunos.desabilitar_aluno');
 });
 
 Route::prefix('/livros')->group(function () {
