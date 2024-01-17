@@ -19,4 +19,17 @@ class Livros extends Model
         'tombo',
         'lancamento'
     ];
+
+    protected $attributes = [
+        'classificacaoLivro' => true
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($book) {
+            $book->tombo = random_int(1, 99999);
+        });
+    }
 }

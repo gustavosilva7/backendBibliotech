@@ -4,19 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livros;
-use Illuminate\Support\Facades\Storage;
 
 class Livro extends Controller
 {
-    public function Index()
+    public function index(int $id = null)
     {
-        $livros = Livros::orderBy('id', 'asc')->get();
+        $query = Livros::query();
+
+        if (isset($id)) {
+            $query->where('id', $id);
+        }
+
+        $books = $query->orderBy('id')->get();
 
         return response()->json([
-            'livros' => $livros
+            'livros' => $books
         ]);
     }
-    public function Update($id, Request $request)
+
+    public function onlyAvailableBooks()
+    {
+        return response()->json([
+            'livros' => Livros::where('classificacaoLivro', true)->orderBy('id')->get(),
+        ]);
+    }
+
+    public function update($id, Request $request)
     {
         $livro = Livros::find($id);
         $data = $request->all();
@@ -26,113 +39,60 @@ class Livro extends Controller
         return response()->json([$livro]);
     }
 
-    public function Find($id){
-        $livro = Livros::find($id);
-
-        return response()->json($livro);
-    }
-    public function Store(Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
+
         $livrosCriados = [];
 
-        // Adiciona os valores comuns a todos os livros
-        $data['classificacaoLivro'] = true;
-
-        if ($data['quantidade'] > 1) {
-            for ($i = 0; $i < $data['quantidade']; $i++) {
-                $data['tombo'] = random_int(1, 99999);
-                $livro = Livros::create($data);
-                $livrosCriados[] = $livro;
-            }
-
-            return response()->json(['message' => 'Livros cadastrados com sucesso', 'livros' => $livrosCriados], 201);
-        } else {
-            $data['tombo'] = random_int(1, 9999);
-            Livros::create($data);
-
-            return response()->json(['message' => 'Livro cadastrado com sucesso', 'livro' => $data], 201);
+        for ($i = 0; $i < $data['quantidade']; $i++) {
+            $livro = Livros::create($data);
+            $livrosCriados[] = $livro;
         }
+
+        return response()->json(['message' => 'Livros cadastrados com sucesso', 'livros' => $livrosCriados], 201);
     }
 
-    public function GetClassificacao()
+    public function makeBookAvailable($id)
     {
-        $livros = Livros::where('classificacaoLivro', true)
-            ->orderBy('id', 'asc')
-            ->get();
-        return response()->json(['livros' => $livros], 200);
-    }
-    public function LivroQuantOff($id)
-    {
-        $livro = Livros::find($id);
-        if (!$livro) {
+        $book = Livros::find($id);
+
+        if (!$book) {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
-        $data = [
-            'classificacaoLivro' => false,
-        ];
-        $livro->update($data);
 
-        return response()->json([
-            'livro' => $livro,
+        $book->update([
+            'classificacaoLivro' => true,
         ]);
-    }
-    public function LivroQuantOn($id)
-    {
-        $livro = Livros::find($id);
-        if (!$livro) {
-            return response()->json(['message' => 'Livro não encontrado'], 404);
-        }
-        $data = [
-            'classificacaoLivro' => true,
-        ];
-        $livro->update($data);
-        return response()->json(['message' => 'Livro novamente disponivel'], 200);
-    }
-    public function LivroOff($id)
-    {
-        $Livro = Livros::find($id);
 
-        if (!$Livro) {
+        return response()->json(['livro' => $book], 200);
+    }
+
+    public function makeBookUnavailable($id)
+    {
+        $book = Livros::find($id);
+
+        if (!$book) {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
 
-        $data = [
-            'classificacaoLivro' => false,
-        ];
-
-        $Livro->update($data);
-
-        return response()->json(['message' => 'Livro atualizado com sucesso'], 200);
+        return response()->json(['livro' => $book], 200);
     }
-    public function LivroOn($id)
-    {
-        $Livro = Livros::find($id);
 
-        if (!$Livro) {
-            return response()->json(['message' => 'Livro não encontrado'], 404);
-        }
-
-        $data = [
-            'classificacaoLivro' => true,
-        ];
-
-        $Livro->update($data);
-
-        return response()->json(['message' => 'Livro atualizado com sucesso'], 200);
-    }
     public function destroy($id)
     {
         $livro = Livros::find($id);
-        if ($livro) {
-            $livro->delete();
-            $livros = Livros::all();    
-            return response()->json([
-                'message' => 'Livro deletado com sucesso',
-                'livros' => $livros
-        ]);
-        } else {
+
+        if (!$livro) {
             return response()->json(['message' => 'Livro não encontrado'], 404);
         }
+
+        $livro->delete();
+        $livros = Livros::all();
+
+        return response()->json([
+            'message' => 'Livro deletado com sucesso',
+            'livros' => $livros
+        ]);
     }
 }
