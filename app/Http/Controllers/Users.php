@@ -33,7 +33,7 @@ class Users extends Controller
             $image = $request->file('imagem');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            $path = Storage::disk('s3')->put('imagens'. $imageName);
+            $path = Storage::disk('s3')->put('imagens'. $imageName, file_put_contents($image));
 
             $data['image'] = $path;
 
