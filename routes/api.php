@@ -41,20 +41,20 @@ Route::prefix('/alunos')->group(function () {
 });
 
 Route::prefix('/livros')->group(function () {
-    Route::get('/classificacao', [Livro::class, 'onlyAvailableBooks']);
-    Route::get('/{id?}', [Livro::class, 'index']);
-    Route::post('/', [Livro::class, 'store']);
-    Route::put('/update/{id}', [Livro::class, 'update']);
-    Route::put('/enablelivro/{id}', [Livro::class, 'makeBookAvailable']);
-    Route::put('/disablelivro/{id}', [Livro::class, 'makeBookUnavailable']);
-    Route::delete('/delete/{id}', [Livro::class, 'destroy']);
+    Route::get('/classificacao', [Livro::class, 'onlyAvailableBooks'])->name('livros.only_available_books');
+    Route::get('/{id?}', [Livro::class, 'index'])->name('livros.get');
+    Route::post('/', [Livro::class, 'store'])->name('livros.post');
+    Route::put('/update/{id}', [Livro::class, 'update'])->name('livros.update');
+    Route::put('/enablelivro/{id}', [Livro::class, 'makeBookAvailable'])->name('livros.enable_book');
+    Route::put('/disablelivro/{id}', [Livro::class, 'makeBookUnavailable'])->name('livros.enable_disable');
+    Route::delete('/delete/{id}', [Livro::class, 'destroy'])->name('livros.delete');
 });
 
 Route::prefix('/emprestimos')->group(function () {
-    Route::get('/', [Emprestimo::class, 'index']);
-    Route::post('/', [Emprestimo::class, 'store']);
-    Route::get('/ativos', [Emprestimo::class, 'emprestimos']);
-    Route::put('/pendentes', [Emprestimo::class, 'pendentes']);
-    Route::put('/{id}', [Emprestimo::class, 'softDelete']);
-    Route::get('/ranking', [Emprestimo::class, 'ranking']);
+    Route::get('/', [Emprestimo::class, 'index'])->name('emprestimos.get');
+    Route::post('/', [Emprestimo::class, 'store'])->name('emprestimos.post');
+    Route::get('/ativos', [Emprestimo::class, 'emprestimos'])->name('emprestimos.ativos');
+    Route::put('/pendentes', [Emprestimo::class, 'pendentes'])->name('emprestimos.pendentes');
+    Route::put('/{id}', [Emprestimo::class, 'softDelete'])->name('emprestimos.update');
+    Route::get('/ranking', [Emprestimo::class, 'ranking'])->name('emprestimos.ranking');
 });
