@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\File;
 
 class Users extends Controller
 {
+    /**
+     * @group Users
+     *
+     * GET api/users/{id?}
+     *
+     * Busca pelos usuários
+     *
+     * @urlParam id number ID do usuário
+     */
     public function index(int $id = null)
     {
         $query = User::query();
@@ -25,6 +34,13 @@ class Users extends Controller
         ]);
     }
 
+    /**
+     * @group Users
+     *
+     * POST api/users
+     *
+     * Registra um novo usuário
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -59,7 +75,15 @@ class Users extends Controller
         return response()->json(['message' => 'Nenhuma imagem foi enviada.'], 400);
     }
 
-
+    /**
+     * @group Users
+     *
+     * GET api/users/image/{filename}
+     *
+     * Busca pela foto do usuário
+     *
+     * @urlParam filename string required Nome do arquivo
+     */
     public function getImage($filename)
     {
         $path = storage_path('app/public/uploads/users/' . $filename);

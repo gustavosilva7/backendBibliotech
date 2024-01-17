@@ -7,6 +7,13 @@ use App\Models\Notas;
 
 class Nota extends Controller
 {
+    /**
+     * @group Notas
+     *
+     * GET api/notas/
+     *
+     * Busca por todas as notas
+     */
     public function index()
     {
         $notas = Notas::all();
@@ -14,6 +21,13 @@ class Nota extends Controller
         return response()->json(['notas' => $notas], 200);
     }
 
+    /**
+     * @group Notas
+     *
+     * POST api/notas/
+     *
+     * Registra uma nova noya
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -23,6 +37,13 @@ class Nota extends Controller
         return response()->json(['message' => 'Nota criada com sucesso'], 201);
     }
 
+    /**
+     * @group Notas
+     *
+     * GET api/notas/ativas
+     *
+     * Busca por todas as notas ativas
+     */
     public function findActives()
     {
         $notas = Notas::where('isactive', true)
@@ -32,8 +53,16 @@ class Nota extends Controller
         return response()->json(['notas' => $notas], 200);
     }
 
-
-    public function update(Request $request, $id)
+    /**
+     * @group Notas
+     *
+     * PUT api/notas/update/{id}
+     *
+     * Atualiza uma nota
+     *
+     * @urlParam id number requird ID da nota
+     */
+    public function update(Request $request, int $id)
     {
         $produto = Notas::find($id);
 
@@ -48,6 +77,15 @@ class Nota extends Controller
         return response()->json(['message' => 'Produto atualizado com sucesso'], 200);
     }
 
+    /**
+     * @group Notas
+     *
+     * PUT api/notas/delete/{id}
+     *
+     * Realiza um soft delete de uma nota
+     *
+     * @urlParam id number required ID da nota
+     */
     public function softDelete($id)
     {
         $nota = Notas::find($id);

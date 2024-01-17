@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class Emprestimo extends Controller
 {
+    /**
+     * @group Empréstimos
+     *
+     * GET api/emprestimos
+     *
+     * Realiza uma busca dentre os empréstimos
+     */
     public function index()
     {
         $emprestimos = Emprestimos::all();
@@ -24,6 +31,13 @@ class Emprestimo extends Controller
         ]);
     }
 
+    /**
+     * @group Empréstimos
+     *
+     * POST api/alunos/
+     *
+     * Cadastra um novo empréstimo
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -33,6 +47,13 @@ class Emprestimo extends Controller
         return response()->json(['message' => 'Emprestimo realizado com sucesso'], 201);
     }
 
+    /**
+     * @group Empréstimos
+     *
+     * GET api/emprestimos/ativos
+     *
+     * Busca por todos os empréstimos ativos
+     */
     public function emprestimos()
     {
         $emprestimos = Emprestimos::where('inProgress', true)->get();
@@ -40,6 +61,13 @@ class Emprestimo extends Controller
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
 
+    /**
+     * @group Empréstimos
+     *
+     * GET api/emprestimos/pendentes
+     *
+     * Busca por todos os empréstimos pendentes
+     */
     public function pendentes()
     {
 
@@ -50,6 +78,13 @@ class Emprestimo extends Controller
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
 
+    /**
+     * @group Empréstimos
+     *
+     * GET api/emprestimos/ranking
+     *
+     * Busca pelo ranking
+     */
     public function ranking()
     {
         $rankingStudents = Emprestimos::select(
@@ -64,6 +99,15 @@ class Emprestimo extends Controller
         return response()->json($rankingStudents);
     }
 
+    /**
+     * @group Empréstimos
+     *
+     * PUT api/emprestimos/{id}
+     *
+     * Realiza um soft delete dos empréstimos
+     *
+     * @urlParam id number required ID do empréstimo
+     */
     public function softDelete($id)
     {
         $emprestimo = Emprestimos::find($id);

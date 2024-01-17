@@ -7,6 +7,15 @@ use App\Models\Alunos;
 
 class Aluno extends Controller
 {
+    /**
+     * @group Alunos
+     *
+     * GET api/alunos/{onlyAvailable?}
+     *
+     * Realiza a busca de alunos
+     *
+     * @urlParam onlyAvailable bool A busca é apenas para os alunos disponíveis?
+     */
     public function index(bool $onlyAvailable = false)
     {
         $query = Alunos::query();
@@ -22,6 +31,13 @@ class Aluno extends Controller
         ]);
     }
 
+    /**
+     * @group Alunos
+     *
+     * POST api/alunos/
+     *
+     * Registra um novo aluno
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -31,7 +47,16 @@ class Aluno extends Controller
         return response()->json(['message' => 'Aluno cadastrado com sucesso'], 201);
     }
 
-    public function alunoOn($id)
+    /**
+     * @group Alunos
+     *
+     * PUT api/alunos/enablealuno/{id}
+     *
+     * Habilita um aluno
+     *
+     * @urlParam id number required ID do aluno
+     */
+    public function enableStudent($id)
     {
         $aluno = Alunos::find($id);
 
@@ -46,7 +71,16 @@ class Aluno extends Controller
         return response()->json(['message' => 'aluno atualizado com sucesso'], 200);
     }
 
-    public function alunoOff($id)
+    /**
+     * @group Alunos
+     *
+     * PUT api/alunos/disablealuno/{id}
+     *
+     * Desabilita um aluno
+     *
+     * @urlParam id number required ID do aluno
+     */
+    public function disableStudent($id)
     {
         $aluno = Alunos::find($id);
 
