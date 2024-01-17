@@ -44,14 +44,14 @@ class Users extends Controller
             $filenametostore = $filename.'_'.time().'.'.$extension;
 
             //Upload File to s3
-            $path = Storage::disk('s3')->put($filenametostore, fopen($request->file('imagem'), 'r+'), 'public');
+            Storage::disk('s3')->put($filenametostore, fopen($request->file('imagem'), 'r+'), 'public');
 
             //Store $filenametostore in the database
             $data['imame'] = $filenametostore;
 
             User::create($data);
 
-            return response()->json(['message' => 'Upload realizado com sucesso!', 'image_path' => $path], 201);
+            return response()->json(['message' => 'Upload realizado com sucesso!'], 201);
         }
 
         User::create($data);
