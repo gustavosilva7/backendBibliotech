@@ -14,4 +14,8 @@ class Notas extends Model
         'conteudo',
         'isactive'
     ];
+
+    protected $attributes = [
+        'isactive' => true,
+    ];
 }

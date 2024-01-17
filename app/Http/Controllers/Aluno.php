@@ -7,43 +7,31 @@ use App\Models\Alunos;
 
 class Aluno extends Controller
 {
-    public function Index()
+    public function index(bool $onlyAvailable = false)
     {
-        $alunos = Alunos::all();
+        $query = Alunos::query();
+
+        if ($onlyAvailable) {
+            $query->where('classificacaoAluno', true);
+        }
+
+        $students = $query->get();
 
         return response()->json([
-            'aluno' =>$alunos
+            'aluno' => $students
         ]);
     }
-    public function Store(Request $request)
+
+    public function store(Request $request)
     {
         $data = $request->all();
-
-        $data['classificacaoAluno'] = true;
 
         Alunos::create($data);
 
         return response()->json(['message' => 'Aluno cadastrado com sucesso'], 201);
     }
 
-    public function GetClassificacao()
-    {
-        $aluno = Alunos::where('classificacaoAluno', true)->get();
-
-        return response()->json(['aluno' => $aluno], 200);
-    }
-
-    // public function Find($id)
-    // {
-    //     $produto = Alunos::find($id);
-
-    //     if ($produto) {
-    //         return response()->json(['produto' => $produto], 200);
-    //     } else {
-    //         return response()->json(['message' => 'Produto não encontrado'], 404);
-    //     }
-    // }
-    public function AlunoOff($id)
+    public function alunoOn($id)
     {
         $aluno = Alunos::find($id);
 
@@ -51,15 +39,14 @@ class Aluno extends Controller
             return response()->json(['message' => 'aluno não encontrado'], 404);
         }
 
-        $data = [
-            'classificacaoAluno' => false,
-        ];
-
-        $aluno->update($data);
+        $aluno->update([
+            'classificacaoAluno' => true
+        ]);
 
         return response()->json(['message' => 'aluno atualizado com sucesso'], 200);
     }
-    public function AlunoOn($id)
+
+    public function alunoOff($id)
     {
         $aluno = Alunos::find($id);
 
@@ -67,12 +54,11 @@ class Aluno extends Controller
             return response()->json(['message' => 'aluno não encontrado'], 404);
         }
 
-        $data = [
-            'classificacaoAluno' => true,
-        ];
-
-        $aluno->update($data);
+        $aluno->update([
+            'classificacaoAluno' => false
+        ]);
 
         return response()->json(['message' => 'aluno atualizado com sucesso'], 200);
     }
+
 }

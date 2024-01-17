@@ -9,26 +9,22 @@ use Illuminate\Support\Facades\File;
 
 class Users extends Controller
 {
-    public function Index()
+    public function index(int $id = null)
     {
-        $usuarios = User::all();
+        $query = User::query();
 
-        return response()->json([
-            'usuarios' => $usuarios
-        ]);
-    }
-    public function Find($id)
-    {
-        $usuario = User::find($id);
-
-        if (!$usuario) {
-            return response()->json(['message' => 'Usuario não encontrado'], 404);
+        if (isset($id)) {
+            $query->where('id', $id);
         }
 
-        return response()->json(['usuario' => $usuario]);
+        $users = $query->get();
+
+        return response()->json([
+            'usuarios' => $users
+        ]);
     }
 
-    public function Store(Request $request)
+    public function store(Request $request)
     {
         $data = $request->all();
 

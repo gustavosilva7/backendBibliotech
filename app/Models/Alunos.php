@@ -16,4 +16,8 @@ class Alunos extends Model
         'turmaAluno',
         'classificacaoAluno'
     ];
+
+    protected $attributes = [
+        'isactive' => true,
+    ];
 }
