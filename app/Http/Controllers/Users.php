@@ -29,17 +29,27 @@ class Users extends Controller
     {
         $data = $request->all();
 
-        if ($request->hasFile('imagem')) {
-            $image = $request->file('imagem');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
+        if($request->hasFile('imagem')) {
 
-            $path = Storage::disk('s3')->put($imageName, fopen($request->file('imagem'), 'r+'), 'public');
+            //get filename with extension
+            $filenamewithextension = $request->file('imagem')->getClientOriginalName();
 
-            $data['image'] = $path;
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+            //get file extension
+            $extension = $request->file('imagem')->getClientOriginalExtension();
+
+            //filename to store
+            $filenametostore = $filename.'_'.time().'.'.$extension;
+
+            //Upload File to s3
+            Storage::disk('s3')->put($filenametostore, fopen($request->file('imagem'), 'r+'), 'public');
+
+            //Store $filenametostore in the database
+            $data['imame'] = $filenametostore;
 
             User::create($data);
-
-            return response()->json(['message' => 'Upload realizado com sucesso!', 'image_path' => $path], 201);
         }
 
         User::create($data);
