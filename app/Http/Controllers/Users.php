@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\File;
 
@@ -32,7 +33,7 @@ class Users extends Controller
             $image = $request->file('imagem');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            $path = $image->storeAs('uploads/users', $imageName);
+            $path = Storage::disk('s3')->put('imagens', $imageName);
 
             $data['image'] = $imageName;
 
