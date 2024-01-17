@@ -23,4 +23,8 @@ class Emprestimos extends Model
         'inProgress',
         'created_at',
     ];
+
+    protected $attributes = [
+        'inProgress' => true,
+    ];
 }

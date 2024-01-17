@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alunos;
 use App\Models\Emprestimos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,39 +9,38 @@ use Illuminate\Support\Facades\DB;
 
 class Emprestimo extends Controller
 {
-    public function Index()
+    public function index()
     {
         $emprestimos = Emprestimos::all();
 
         $ranking = Emprestimos::select("idDoAluno", DB::raw("COUNT(*) as total"))
-        ->orderByDesc("total")
-        ->groupBy("idDoAluno")
-        ->get();
+            ->orderByDesc("total")
+            ->groupBy("idDoAluno")
+            ->get();
 
         return response()->json([
             "ranking" => $ranking,
             "emprestimos" => $emprestimos
         ]);
     }
-    public function Store(Request $request)
+
+    public function store(Request $request)
     {
         $data = $request->all();
-
-        $data['inProgress'] = true;
 
         Emprestimos::create($data);
 
         return response()->json(['message' => 'Emprestimo realizado com sucesso'], 201);
     }
 
-    public function Emprestimos()
+    public function emprestimos()
     {
-
         $emprestimos = Emprestimos::where('inProgress', true)->get();
 
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
-    public function Pendentes()
+
+    public function pendentes()
     {
 
         $emprestimos = Emprestimos::where('inProgress', true)
@@ -52,7 +50,7 @@ class Emprestimo extends Controller
         return response()->json(['emprestimos' => $emprestimos], 200);
     }
 
-    public function Ranking()
+    public function ranking()
     {
         $rankingStudents = Emprestimos::select(
             'idDoAluno',
@@ -62,25 +60,21 @@ class Emprestimo extends Controller
             ->groupBy('idDoAluno')
             ->orderByDesc('total')
             ->get();
-    
+
         return response()->json($rankingStudents);
     }
-    
 
-    
-    public function Delete($id)
+    public function softDelete($id)
     {
-        $Emprestimo = Emprestimos::find($id);
+        $emprestimo = Emprestimos::find($id);
 
-        if (!$Emprestimo) {
+        if (!$emprestimo) {
             return response()->json(['message' => 'Emprestimo não encontrado'], 404);
         }
 
-        $data = [
+        $emprestimo->update([
             'inProgress' => false,
-        ];
-
-        $Emprestimo->update($data);
+        ]);
 
         return response()->json(['message' => 'Emprestimo deletado com sucesso'], 200);
     }
