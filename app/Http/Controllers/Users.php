@@ -35,7 +35,7 @@ class Users extends Controller
 
             $path = Storage::disk('s3')->put('imagens', $imageName);
 
-            $data['image'] = $imageName;
+            $data['image'] = $path;
 
             User::create($data);
 
