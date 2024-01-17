@@ -54,7 +54,7 @@ Route::prefix('/emprestimos')->group(function () {
     Route::get('/', [Emprestimo::class, 'index'])->name('emprestimos.get');
     Route::post('/', [Emprestimo::class, 'store'])->name('emprestimos.post');
     Route::get('/ativos', [Emprestimo::class, 'emprestimos'])->name('emprestimos.ativos');
-    Route::put('/pendentes', [Emprestimo::class, 'pendentes'])->name('emprestimos.pendentes');
+    Route::get('/pendentes', [Emprestimo::class, 'pendentes'])->name('emprestimos.pendentes');
     Route::put('/{id}', [Emprestimo::class, 'softDelete'])->name('emprestimos.update');
     Route::get('/ranking', [Emprestimo::class, 'ranking'])->name('emprestimos.ranking');
 });
