@@ -39,7 +39,7 @@ class Users extends Controller
 
             User::create($data);
 
-            return response()->json(['message' => 'Upload realizado com sucesso!', 'image_path' => $imageName], 201);
+            return response()->json(['message' => 'Upload realizado com sucesso!', 'image_path' => $path], 201);
         }
 
         User::create($data);
