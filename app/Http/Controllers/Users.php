@@ -45,19 +45,39 @@ class Users extends Controller
     {
         $data = $request->all();
 
-        if($request->hasFile('imagem')) {
-            $image = $request->file('imagem');
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $name = time() . $file->getClientOriginalName();
+        //     $filePath = 'images/' . $name;
+        //     $x = Storage::disk('profile-photos')->put($filePath, file_get_contents($file));
+
+        //     $teste = config('filesystems.disks');
+        //     dd($file, $x, $name, $teste);
+
+        //     return response()->json([
+        //                 'path' => $x,
+        //                 'message' => 'Upload realizado com sucesso!'
+        //     ], 201);
+        // }
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            Storage::disk('profile-photos')->put($imageName, $image);
+            // dd($image);
+            $x = Storage::disk('s3')->put($imageName, $image);
+            $teste = config('filesystems');
 
-            $path = Storage::disk('profile-photos')->url($imageName);
+            dd($teste, $x, $image, $imageName);
+
+
+            $path = Storage::disk('s3')->url($imageName);
 
             return response()->json([
                 'path' => $path,
                 'message' => 'Upload realizado com sucesso!'
             ], 201);
-          
+
         }
 
         User::create($data);
