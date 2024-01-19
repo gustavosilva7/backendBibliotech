@@ -46,28 +46,18 @@ class Users extends Controller
         $data = $request->all();
 
         if($request->hasFile('imagem')) {
+            $image = $request->file('imagem');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-            //get filename with extension
-            $filenamewithextension = $request->file('imagem')->getClientOriginalName();
+            Storage::disk('profile-photos')->put($imageName, $image);
 
-            //get filename without extension
-            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $path = Storage::disk('profile-photos')->url($imageName);
 
-            //get file extension
-            $extension = $request->file('imagem')->getClientOriginalExtension();
-
-            //filename to store
-            $filenametostore = $filename.'_'.time().'.'.$extension;
-
-            //Upload File to s3
-            Storage::disk('s3')->put($filenametostore, fopen($request->file('imagem'), 'r+'), 'public');
-
-            //Store $filenametostore in the database
-            $data['imame'] = $filenametostore;
-
-            User::create($data);
-
-            return response()->json(['message' => 'Upload realizado com sucesso!'], 201);
+            return response()->json([
+                'path' => $path,
+                'message' => 'Upload realizado com sucesso!'
+            ], 201);
+          
         }
 
         User::create($data);
@@ -86,7 +76,7 @@ class Users extends Controller
      */
     public function getImage($filename)
     {
-        $path = storage_path('app/public/uploads/users/' . $filename);
+        $path = Storage::disk('profile-photos')->url($filename);
 
         if (File::exists($path)) {
             $file = File::get($path);
